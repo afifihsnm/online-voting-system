@@ -29,3 +29,19 @@ Aplikasi voting online berbasis web yang memungkinkan pengguna untuk memilih eve
 | Backend    | Laravel |
 
 ---
+
+## ⚙️ Instalasi & Menjalankan Proyek
+
+1. **Clone repository:**
+
+```bash
+git clone https://github.com/username/online-voting-system.git
+cd online-voting-system
+
+composer install
+npm install
+cp .env .env.example
+
+php artisan key:generate
+composer run dev
+```
