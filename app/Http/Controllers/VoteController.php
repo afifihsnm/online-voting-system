@@ -34,14 +34,11 @@ class VoteController extends Controller
     public function store(StoreVoteRequest $request)
     {
         $validated = $request->validated();
-        // dd($validated);
 
         $result = Vote::create([
             'user_id' => Auth::id(),
             'option_id' => $validated['option_id']
         ]);
-
-        // dd(!$result);
 
         if ($result) {
             $option = Option::find($validated['option_id']);

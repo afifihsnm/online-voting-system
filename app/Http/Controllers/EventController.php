@@ -75,7 +75,6 @@ class EventController extends Controller
                 'message' => 'Already vote. Cannot vote twice',
             ]);
         }
-        // dd($event);
 
         return Inertia::render('events/show', [
             'event' => $event
