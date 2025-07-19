@@ -4,6 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { DateTimePicker } from '@/components/ui/datetime-picker';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
@@ -29,9 +30,6 @@ type Option = {
 }
 
 export default function CreateEvent() {
-    // const [startAtDate, setStartAtDate] = useState<Date | undefined>(new Date());
-    // const [endAtDate, setEndAtDate] = useState<Date | undefined>(new Date());
-    // console.log(new Date())
     const [option, setOption] = useState('');
     const [options, setOptions] = useState<Option[]>([]);
 
@@ -100,8 +98,9 @@ export default function CreateEvent() {
                         <Label htmlFor="isClosed">Event Status</Label>
 
                         <div className="flex items-center gap-3">
-                            <Checkbox id="isClosed" />
-                            <Label htmlFor="isClosed">Accept terms and conditions</Label>
+                            {/* <Checkbox id="isClosed" /> */}
+                            <Switch id="isClosed" />
+                            <Label htmlFor="isClosed">Closed</Label>
                         </div>
 
                         <InputError className="mt-2" message={errors.isClosed} />

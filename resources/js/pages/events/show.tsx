@@ -41,7 +41,6 @@ type VoteForm = {
     option_id: number;
 };
 
-// export default function DetailEvent({ event }: Props) {
 export default function ShowEvent({ event }: Props) {
     const { data, setData, post, errors, processing } = useForm<Required<VoteForm>>({
         option_id: event.options[0].id
@@ -67,7 +66,6 @@ export default function ShowEvent({ event }: Props) {
                         <Card>
                             <form onSubmit={submit}>
                                 <RadioGroup defaultValue={`${data.option_id}`} onValueChange={(value) => setData('option_id', parseInt(value))} className="px-4">
-                                    {/* {event.options.map()} */}
                                     {event.options.map((option) => (
                                         <Card className="px-4" key={option.id}>
                                             <div className="flex items-center gap-3">
@@ -90,89 +88,4 @@ export default function ShowEvent({ event }: Props) {
             </div>
         </AppLayout>
     );
-}
-
-{
-    /* <form onSubmit={submit} className="space-y-6">
-    <div className="grid gap-2">
-        <Label htmlFor="title">Title</Label>
-
-        <Input
-            id="title"
-            className="mt-1 block w-full"
-            value={data.title}
-            onChange={(e) => setData('title', e.target.value)}
-            required
-            autoComplete="title"
-            placeholder="Title"
-        />
-
-        <InputError className="mt-2" message={errors.title} />
-    </div>
-
-    <div className="grid gap-2">
-        <Label htmlFor="starts_at">Start At</Label>
-
-        <DateTimePicker value={data.starts_at} onChange={(date) => setData('starts_at', date ? date : new Date())} className="w-[280px]" />
-
-        <InputError className="mt-2" message={errors.starts_at} />
-    </div>
-
-    <div className="grid gap-2">
-        <Label htmlFor="ends_at">Email address</Label>
-
-        <DateTimePicker value={data.ends_at} onChange={(date) => setData('ends_at', date ? date : new Date())} className="w-[280px]" />
-
-        <InputError className="mt-2" message={errors.ends_at} />
-    </div>
-
-    <div className="grid gap-2">
-        <Label htmlFor="isClosed">Event Status</Label>
-
-        <div className="flex items-center gap-3">
-            <Checkbox id="isClosed" />
-            <Label htmlFor="isClosed">Accept terms and conditions</Label>
-        </div>
-
-        <InputError className="mt-2" message={errors.isClosed} />
-    </div>
-
-    <div className="grid gap-2">
-        <Label htmlFor="options">Options</Label>
-
-        <Input
-            id="options"
-            className="mt-1 block w-full"
-            value={option}
-            onChange={(e) => setOption(e.target.value)}
-            // required
-            autoComplete="title"
-            placeholder="Title"
-        />
-
-        <InputError className="mt-2" message={errors.options} />
-
-        {options.map((option) => (
-            <p>{option.option}</p>
-        ))}
-
-        <Button
-            type="button"
-            onClick={() => {
-                if (option) {
-                    setOptions([...options, { option: option }]);
-                    setOption('');
-                    setData('options', [...options, { option: option }]);
-                }
-            }}
-            className="w-[100px]"
-        >
-            Add option
-        </Button>
-    </div>
-
-    <div className="flex items-center gap-4">
-        <Button disabled={processing}>Submit</Button>
-    </div>
-</form>; */
 }

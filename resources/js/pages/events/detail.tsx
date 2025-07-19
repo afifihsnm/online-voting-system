@@ -50,9 +50,7 @@ interface Props {
     event: Event;
 }
 
-// export default function DetailEvent({ event }: Props) {
 export default function DetailEvent({ event }: Props) {
-    // console.log(event)
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -86,7 +84,6 @@ export default function DetailEvent({ event }: Props) {
                                 <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
                                 <Bar dataKey="votes" layout="vertical" fill="var(--color-desktop)" radius={4}>
                                     <LabelList dataKey="votes" position="insideLeft" offset={8} className="fill-(--color-label)" fontSize={12} />
-                                    {/* <LabelList dataKey="vote" position="right" offset={8} className="fill-foreground" fontSize={12} /> */}
                                 </Bar>
                             </BarChart>
                         </ChartContainer>

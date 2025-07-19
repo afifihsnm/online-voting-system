@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use App\Models\Vote;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class EventController extends Controller
@@ -34,13 +36,20 @@ class EventController extends Controller
     public function store(StoreEventRequest $request)
     {
         $validated = $request->validated();
-        dd($validated);
         $validated['starts_at'] = Carbon::parse($request->validated()['starts_at'])->setTimezone("Asia/Jakarta")->format('Y-m-d H:i:s');
         $validated['ends_at'] = Carbon::parse($request->validated()['ends_at'])->setTimezone("Asia/Jakarta")->format('Y-m-d H:i:s');
 
-        $student = Event::create($validated);
+        Event::create([
+            'title' => $validated['title'],
+            'isClosed' => $validated['isClosed'],
+            'starts_at' => $validated['starts_at'],
+            'ends_at' => $validated['ends_at']
+        ]);
 
-        return redirect()->route('events.index')->with('success', 'Student created successfully!');
+        // return redirect()->route('events.index')->with('success', 'Student created successfully!');
+        return redirect()->route('events.index')->with('success_toast', [
+            'message' => 'Event created successfully!',
+        ]);
     }
 
     /**
@@ -48,7 +57,17 @@ class EventController extends Controller
      */
     public function show(string $id)
     {
-        $event = Event::with(['options'])->where('id', '=', $id)->first();
+        $event = Event::with(['options.event'])->where('id', '=', $id)->first();
+        $optionIds = [];
+        foreach ($event->options as $option) {
+            $optionIds[] = $option->id;
+        }
+        $userVote = Vote::where('user_id', '=', Auth::id())->whereIn('option_id', $optionIds)->first();
+        if ($userVote) {
+            return redirect()->route('events.index')->with('error_toast', [
+                'message' => 'Already vote. Cannot vote twice',
+            ]);
+        }
 
         return Inertia::render('events/show', [
             'event' => $event
@@ -58,10 +77,6 @@ class EventController extends Controller
     public function detail(string $id)
     {
         $event = Event::with(['options'])->where('id', '=', $id)->first();
-
-        // return Inertia::render('events/show', [
-        //     'event' => $event
-        // ]);
 
         return Inertia::render('events/detail', [
             'event' => $event
