@@ -82,7 +82,7 @@ export default function DetailEvent({ event }: Props) {
                                 <XAxis dataKey="votes" type="number" hide />
                                 <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
                                 <Bar dataKey="votes" layout="vertical" fill="var(--color-desktop)" radius={4}>
-                                    <LabelList dataKey="votes" position="insideLeft" offset={8} className="fill-(--color-label)" fontSize={12} />
+                                    <LabelList dataKey="option" position="insideLeft" offset={8} className="fill-(--color-label)" fontSize={12} />
                                 </Bar>
                             </BarChart>
                         </ChartContainer>
