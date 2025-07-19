@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use Carbon\Carbon;
+use Inertia\Inertia;
 
 class EventController extends Controller
 {
@@ -13,7 +15,9 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('events/index', [
+            'events' => Event::all()
+        ]);
     }
 
     /**
@@ -21,7 +25,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('events/create');
     }
 
     /**
@@ -29,15 +33,44 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
-        //
+        $validated = $request->validated();
+        dd($validated);
+        $validated['starts_at'] = Carbon::parse($request->validated()['starts_at'])->setTimezone("Asia/Jakarta")->format('Y-m-d H:i:s');
+        $validated['ends_at'] = Carbon::parse($request->validated()['ends_at'])->setTimezone("Asia/Jakarta")->format('Y-m-d H:i:s');
+
+        $student = Event::create($validated);
+
+        return redirect()->route('events.index')->with('success', 'Student created successfully!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Event $event)
+    public function show(string $id)
     {
-        //
+        $event = Event::with(['options'])->where('id', '=', $id)->first();
+
+        return Inertia::render('events/show', [
+            'event' => $event
+        ]);
+    }
+
+    public function detail(string $id)
+    {
+        $event = Event::with(['options'])->where('id', '=', $id)->first();
+
+        // return Inertia::render('events/show', [
+        //     'event' => $event
+        // ]);
+
+        return Inertia::render('events/detail', [
+            'event' => $event
+        ]);
+    }
+
+    public function test()
+    {
+        return Inertia::render('events/test');
     }
 
     /**

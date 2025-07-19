@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
+use App\Models\Option;
 use App\Models\Vote;
+use Illuminate\Support\Facades\Auth;
+
+// use function Pest\Laravel\options;
 
 class VoteController extends Controller
 {
@@ -29,7 +33,21 @@ class VoteController extends Controller
      */
     public function store(StoreVoteRequest $request)
     {
-        //
+        $validated = $request->validated();
+        // dd($validated);
+
+        $result = Vote::create([
+            'user_id' => Auth::id(),
+            'option_id' => $validated['option_id']
+        ]);
+
+        // dd(!$result);
+
+        if ($result) {
+            $option = Option::find($validated['option_id']);
+            Option::where('id', '=', $validated['option_id'])->update(['votes' => $option->votes + 1]);
+        }
+        return redirect()->route('events.index');
     }
 
     /**
