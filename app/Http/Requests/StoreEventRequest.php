@@ -27,7 +27,6 @@ class StoreEventRequest extends FormRequest
             'starts_at' => 'date|required',
             'ends_at' => 'date|required',
             'options' => 'required',
-            // 'options' => 'required'
         ];
     }
 }

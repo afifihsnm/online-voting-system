@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use App\Models\Option;
 use App\Models\Vote;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -39,14 +40,20 @@ class EventController extends Controller
         $validated['starts_at'] = Carbon::parse($request->validated()['starts_at'])->setTimezone("Asia/Jakarta")->format('Y-m-d H:i:s');
         $validated['ends_at'] = Carbon::parse($request->validated()['ends_at'])->setTimezone("Asia/Jakarta")->format('Y-m-d H:i:s');
 
-        Event::create([
+        $event = Event::create([
             'title' => $validated['title'],
             'isClosed' => $validated['isClosed'],
             'starts_at' => $validated['starts_at'],
             'ends_at' => $validated['ends_at']
         ]);
 
-        // return redirect()->route('events.index')->with('success', 'Student created successfully!');
+        foreach ($validated['options'] as $option) {
+            Option::create([
+                'event_id' => $event->id,
+                'option' => $option['option']
+            ]);
+        }
+
         return redirect()->route('events.index')->with('success_toast', [
             'message' => 'Event created successfully!',
         ]);
@@ -68,6 +75,7 @@ class EventController extends Controller
                 'message' => 'Already vote. Cannot vote twice',
             ]);
         }
+        // dd($event);
 
         return Inertia::render('events/show', [
             'event' => $event
@@ -81,11 +89,6 @@ class EventController extends Controller
         return Inertia::render('events/detail', [
             'event' => $event
         ]);
-    }
-
-    public function test()
-    {
-        return Inertia::render('events/test');
     }
 
     /**
