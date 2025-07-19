@@ -11,6 +11,7 @@ import AuthLayout from '@/layouts/auth-layout';
 
 type RegisterForm = {
     name: string;
+    nik: string;
     email: string;
     password: string;
     password_confirmation: string;
@@ -19,6 +20,7 @@ type RegisterForm = {
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         name: '',
+        nik: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -51,6 +53,23 @@ export default function Register() {
                             placeholder="Full name"
                         />
                         <InputError message={errors.name} className="mt-2" />
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="nik">NIK</Label>
+                        <Input
+                            id="nik"
+                            type="text"
+                            required
+                            autoFocus
+                            tabIndex={1}
+                            autoComplete="nik"
+                            value={data.nik}
+                            onChange={(e) => setData('nik', e.target.value)}
+                            disabled={processing}
+                            placeholder="NIK"
+                        />
+                        <InputError message={errors.nik} className="mt-2" />
                     </div>
 
                     <div className="grid gap-2">
